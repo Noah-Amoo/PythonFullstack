@@ -27,3 +27,34 @@ def password_validator(password):
     return has_min_char and has_uppercase and has_lowercase and has_digit and has_special
 
 print(password_validator("Noa3h@Amoo")) # Returns True
+
+
+# 3) Build a simple text formatter that takes a paragraph and: capitalizes the first letter of each sentence, removes extra whitespace, and wraps lines at 80 characters.
+
+import re
+import textwrap
+
+def text_formatter(paragraph):
+    # Remove extra whitespace
+    paragraph = " ".join(paragraph.split())
+
+    # Splits into sentences while maintaining the punctuation using regular expression
+    parts = re.split(r"([.!?])", paragraph)
+
+    formatted_sentences = []
+    for i in range(0, len(parts), 2):
+        sentence = parts[i].strip()
+        punctuation = parts[i + 1] if i + 1 < len(parts) else ""
+        if sentence:
+            formatted_sentences.append(sentence.capitalize() + punctuation)
+
+    formatted_text = " ".join(formatted_sentences)
+
+    #Wrap at 80 characters
+    return textwrap.fill(formatted_text, width=80)
+
+
+paragraph = "   hello world.   this is python! i just   love having fun    with it."
+print(text_formatter(paragraph))
+
+# Outputs: Hello world. This is python! I just love having fun with it.
