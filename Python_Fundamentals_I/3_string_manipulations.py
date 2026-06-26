@@ -58,3 +58,19 @@ paragraph = "   hello world.   this is python! i just   love having fun    with 
 print(text_formatter(paragraph))
 
 # Outputs: Hello world. This is python! I just love having fun with it.
+
+
+# 4) Write a function that takes a string and returns it in snake_case, camelCase, and PascalCase formats.
+
+def case_convert(text):
+    words = text.split(' ')
+
+    snake_case = "_".join(word.lower() for word in words)
+    camel_case = words[0].lower() + "".join(word.capitalize() for word in words[1:]) if words else ""
+    pascal_case = "".join(word.capitalize() for word in words)
+
+    return snake_case, camel_case, pascal_case
+
+
+result = case_convert("hello world python")
+print(result)
