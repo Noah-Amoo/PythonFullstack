@@ -72,5 +72,7 @@ def case_convert(text):
     return snake_case, camel_case, pascal_case
 
 
-result = case_convert("hello world python")
+result = case_convert("hello noah amoo")
 print(result)
+
+# Output: 'hello_noah_amoo', 'helloNoahAmoo', 'HelloNoahAmoo'
