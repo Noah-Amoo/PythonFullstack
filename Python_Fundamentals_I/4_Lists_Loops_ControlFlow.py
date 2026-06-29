@@ -48,3 +48,81 @@ print(calculate_statistics(nums))
 
 
 
+# 2) Implement a simple todo list program using a list. Support: add item, remove item by index, mark as done, display all items with status, and filter by done/pending.
+
+def add_item(todo_list, item):
+    todo_list.append({"task": item, "done": False})
+
+def remove_item(todo_list, index):
+    if 0 <= index < len(todo_list):
+        todo_list.pop(index)
+    else:
+        raise ValueError("Index is not valid")
+
+def mark_as_done(todo_list, index):
+    if 0 <= index < len(todo_list):
+        todo_list[index]["done"] = True
+    else:
+        raise ValueError("Invalid index")
+
+def display_items(todo_list):
+    if not todo_list:
+        print("Todo list is empty")
+        return
+    
+    for i, item in enumerate(todo_list):
+        status = "Done" if item["done"] else "Pending"
+        print(f"{i}. {item['task']} - {status}")
+
+
+def filter_items(todo_list, status):
+    if status == "done":
+        filtered = [item for item in todo_list if item["done"]]
+
+    elif status == "pending":
+        filtered = [item for item in todo_list if not item["done"]]
+    
+    else:
+        print("Mark as either 'done' or 'pending'.")
+        return
+    
+    if not filtered:
+        print("No matching items.")
+        return
+    
+    for i, item in enumerate(filtered):
+        print(f"{i}. {item['task']} - {'Done' if item['done'] else 'Pending'}")
+
+
+# Example usage
+todo_list = []
+
+add_item(todo_list, "Complete Assignments")
+add_item(todo_list, "Study Python")
+add_item(todo_list, "Study Multithreading")
+
+mark_as_done(todo_list, 1)
+remove_item(todo_list, 0)
+
+print("All items:")
+display_items(todo_list)
+
+print("\nDone items:")
+filter_items(todo_list, "done")
+
+print("\nPending items:")
+filter_items(todo_list, "pending")
+
+"""
+Gives the following Output:
+
+All items:
+0. Study Python - Done
+1. Study Multithreading - Pending
+
+Done items:
+0. Study Python - Done
+
+Pending items:
+0. Study Multithreading - Pending
+"""
