@@ -156,3 +156,49 @@ print("For loop:", fibonacci_for(n))
 print("While loop:", fibonacci_while(n))
 
 # In terms of readability, fibonnaci_ is clearer than fibonacci_for because the counter does not need any manual tuning
+
+
+
+# 4) Create a function that flattens a nested list of arbitrary depth (e.g., [1, [2, [3, [4]]]] -> [1, 2, 3, 4]) using recursion and then using iteration.
+
+def flatten_recursive(nested_list):
+    flattened = []
+
+    for item in nested_list:
+        if isinstance(item, list):
+            flattened.extend(flatten_recursive(item))
+        else:
+            flattened.append(item)
+
+    return flattened
+
+
+def flatten_iterative(nested_list):
+    flattened = []
+    stack = [nested_list]
+
+    while stack:
+        current = stack.pop()
+
+        if isinstance(current, list):
+            for item in reversed(current):
+                stack.append(item)
+        else:
+            flattened.append(current)
+
+    return flattened
+
+data = [1, [2, [3, [4]]]]
+print(flatten_recursive(data))
+print(flatten_iterative(data))
+
+"""
+Example of Output
+data = [1, [2, [3, [4]]]]
+print(flatten_recursive(data))
+print(flatten_iterative(data))
+
+Gives the following output
+[1, 2, 3, 4]
+[1, 2, 3, 4]
+"""
