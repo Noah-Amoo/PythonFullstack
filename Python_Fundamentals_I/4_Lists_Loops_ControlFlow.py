@@ -126,3 +126,33 @@ Done items:
 Pending items:
 0. Study Multithreading - Pending
 """
+
+
+# 3) Write a program that generates the first N numbers of the Fibonacci sequence using both a for loop and a while loop. Compare the readability.
+
+def fibonacci_for(n):
+    sequence = []
+    a, b = 0, 1
+
+    for _ in range(n):
+        a, b = b, a + b
+
+    return sequence
+
+def fibonacci_while(n):
+    sequence = []
+    a, b = 0, 1
+    count = 0
+
+    while count < n:
+        sequence.append(a)
+        a, b = b, a + b
+        count += 1
+
+    return sequence
+
+n = 10
+print("For loop:", fibonacci_for(n))
+print("While loop:", fibonacci_while(n))
+
+# In terms of readability, fibonnaci_ is clearer than fibonacci_for because the counter does not need any manual tuning
