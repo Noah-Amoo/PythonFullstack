@@ -1,0 +1,169 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+#container {
+  background-color: aqua;
+  width: auto;
+  height: 100vh;
+  margin: auto;
+}
+
+#left_side {
+  width: 25%;
+  height: 98vh;
+  background-color: black;
+  /* float: left; */
+}
+
+#right_side {
+  width: 60%;
+  height: 98vh;
+  background-color: white;
+  /* float: left; */
+  padding-left: 5%;
+  padding-right: 10%;
+}
+
+#about {
+  width: 100%;
+  height: 25vh;
+  background-color: gold;
+}
+
+#skills {
+  width: 100%;
+  height: 25vh;
+  background-color: green;
+}
+
+#projects {
+  width: 100%;
+  height: 35vh;
+  background-color: rebeccapurple;
+}
+
+#avatar {
+  width: 100%;
+  height: 30vh;
+  background-color: yellow;
+  padding-top: 5vh;
+}
+
+#profile_pic {
+  width: 100px;
+  /* height: 180px; */
+  /* margin: auto; */
+  /* background-color: orange; */
+  /* border: 1px solid orange; */
+  border-radius: 50px;
+  /* overflow: hidden; */
+}
+
+#profile_pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+#profile_bio {
+  width: 100%;
+  height: 60vh;
+  background-color: beige;
+  /* padding-left: 20px; */
+}
+
+h2,
+h3 {
+  /* font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif; */
+  text-align: center;
+}
+
+h3 {
+  font-weight: 200;
+  color: orange;
+}
+
+p {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  padding-left: 10px;
+  font-size: large;
+}
+
+a {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  font-size: large;
+  margin-top: 30px;
+  color: white;
+  cursor: pointer;
+  /* position: relative; */
+}
+
+a:hover {
+  color: gold;
+}
+
+.title {
+  font-size: x-large;
+  padding-bottom: 5px;
+  font-weight: lighter;
+}
+
+.skills_set {
+  width: 100px;
+  height: 25px;
+  background-color: grey;
+  float: left;
+  margin: 5px;
+  padding: 3px;
+  /* border: 1px solid black; */
+  border-radius: 5px;
+  text-align: center;
+  font-size: larger;
+  cursor: pointer;
+}
+
+.skills_set:hover {
+  color: white;
+  background-color: black;
+}
+
+.projects_set {
+  width: 160px;
+  height: 170px;
+  margin-left: 20px;
+  float: left;
+  cursor: pointer;
+  /* background-color: brown; */
+  /* border: 1px solid black; */
+  /* border-radius: 10%; */
+}
+
+.projects_set .top {
+  width: inherit;
+  height: 45%;
+  background-color: orange;
+  border: 1px solid orange;
+  /* border-top: 1px solid black; */
+  border-top-left-radius: 20%;
+  border-top-right-radius: 20%;
+}
+
+.projects_set .down {
+  width: inherit;
+  height: 55%;
+  background-color: white;
+  border: 1px solid gray;
+  border-bottom-left-radius: 20%;
+  border-bottom-right-radius: 20%;
+  text-align: center;
+}
+
+.projects_set .down:hover {
+  background-color: aliceblue;
+}

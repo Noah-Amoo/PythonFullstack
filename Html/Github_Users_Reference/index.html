@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css">
+    <title>GitHub User Reference</title>
+  </head>
+  <body>
+    <main class="container">
+      <section class="hero">
+        <h1>GitHub Account Lookup</h1>
+        <p>
+          Enter a GitHub username to fetch public profile details. 
+        </p>
+      </section>
+
+      <section class="panel">
+        <form id="lookup-form">
+          <label for="query">GitHub username</label>
+          <div class="search-row">
+            <input
+              id="query"
+              name="query"
+              type="text"
+              placeholder="e.g. octocat or name@example.com"
+              autocomplete="off"
+            />
+            <button id="search-btn" type="submit">Search</button>
+          </div>
+        </form>
+
+        <div id="status" class="status">Type a username and press Search.</div>
+
+        <section id="result" class="result" aria-live="polite">
+          <div class="card">
+            <img id="avatar" class="avatar" alt="GitHub avatar" />
+            <div>
+              <div class="profile-top">
+                <h2 id="display-name"></h2>
+                <span id="login-badge" class="badge"></span>
+              </div>
+              <div id="meta" class="meta"></div>
+              <div class="stats">
+                <div class="stat">
+                  <span>Followers</span>
+                  <strong id="followers"></strong>
+                </div>
+                <div class="stat">
+                  <span>Following</span>
+                  <strong id="following"></strong>
+                </div>
+                <div class="stat">
+                  <span>Public Repos</span>
+                  <strong id="repos"></strong>
+                </div>
+                <div class="stat">
+                  <span>Public Gists</span>
+                  <strong id="gists"></strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script>
+      const form = document.getElementById("lookup-form");
+      const queryInput = document.getElementById("query");
+      const searchBtn = document.getElementById("search-btn");
+      const statusEl = document.getElementById("status");
+      const resultEl = document.getElementById("result");
+      const avatarEl = document.getElementById("avatar");
+      const displayNameEl = document.getElementById("display-name");
+      const loginBadgeEl = document.getElementById("login-badge");
+      const metaEl = document.getElementById("meta");
+      const followersEl = document.getElementById("followers");
+      const followingEl = document.getElementById("following");
+      const reposEl = document.getElementById("repos");
+      const gistsEl = document.getElementById("gists");
+
+      function setStatus(message, type = "") {
+        statusEl.textContent = message;
+        statusEl.className = `status ${type}`.trim();
+      }
+
+      function showResult(user) {
+        avatarEl.src = user.avatar_url;
+        avatarEl.alt = `${user.login}'s avatar`;
+        displayNameEl.textContent = user.name || user.login;
+        loginBadgeEl.textContent = `@${user.login}`;
+
+        const location = user.location
+          ? `<div>Location: ${user.location}</div>`
+          : "";
+        const bio = user.bio ? `<div>${user.bio}</div>` : "";
+        const company = user.company
+          ? `<div>Company: ${user.company}</div>`
+          : "";
+        const blog = user.blog
+          ? `<div>Website: <a href="${user.blog}" target="_blank" rel="noreferrer">${user.blog}</a></div>`
+          : "";
+        const profileLink = `<div>Profile: <a href="${user.html_url}" target="_blank" rel="noreferrer">${user.html_url}</a></div>`;
+
+        metaEl.innerHTML = `${bio}${company}${location}${blog}${profileLink}`;
+        followersEl.textContent = user.followers;
+        followingEl.textContent = user.following;
+        reposEl.textContent = user.public_repos;
+        gistsEl.textContent = user.public_gists;
+        resultEl.style.display = "block";
+      }
+
+      async function fetchUserData(query) {
+        if (query.includes("@")) {
+          const searchUrl = `https://api.github.com/search/users?q=${encodeURIComponent(query)}`;
+          const response = await fetch(searchUrl);
+          if (!response.ok) {
+            throw new Error("GitHub search request failed.");
+          }
+
+          const data = await response.json();
+          if (!data.items || data.items.length === 0) {
+            throw new Error("No GitHub profile found for that email address.");
+          }
+
+          const userResponse = await fetch(data.items[0].url);
+          if (!userResponse.ok) {
+            throw new Error("GitHub profile lookup failed.");
+          }
+
+          return userResponse.json();
+        }
+
+        const response = await fetch(
+          `https://api.github.com/users/${encodeURIComponent(query)}`,
+        );
+        if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error("No GitHub user found for that username.");
+          }
+          throw new Error("GitHub profile lookup failed.");
+        }
+
+        return response.json();
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const query = queryInput.value.trim();
+
+        if (!query) {
+          setStatus("Enter a GitHub username or email address.", "error");
+          resultEl.style.display = "none";
+          return;
+        }
+
+        searchBtn.disabled = true;
+        setStatus("Searching GitHub...", "success");
+        resultEl.style.display = "none";
+
+        try {
+          const user = await fetchUserData(query);
+          showResult(user);
+          setStatus("Profile loaded.", "success");
+        } catch (error) {
+          setStatus(error.message, "error");
+        } finally {
+          searchBtn.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>

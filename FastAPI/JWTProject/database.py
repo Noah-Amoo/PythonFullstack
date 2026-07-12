@@ -1,0 +1,1 @@
+CREATE_DATABASE=jwt_auth
