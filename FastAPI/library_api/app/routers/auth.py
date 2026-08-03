@@ -6,17 +6,19 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
-from app.core.security import (
-    verify_password,
-    create_access_token,
-    create_refresh_token,
-    hash_refresh_token,
-)
+from app.core.security import (verify_password, create_access_token, create_refresh_token, hash_refresh_token)
+
 from app.database.database import get_db
+
+from app.dependencies.auth import get_current_user
+
 from app.models.refresh_token import RefreshToken
 from app.models.user import User
+
 from app.schemas.user import UserCreate
 from app.services.auth_service import register_user
+
+
 
 router = APIRouter(
     prefix="/auth",
@@ -130,6 +132,18 @@ async def refresh(
     }
 
 
+@router.get("/me")
+async def get_me(
+    current_user: User = Depends(get_current_user),
+):
+    return {
+        "id": current_user.id,
+        "username": current_user.username,
+        "email": current_user.email,
+        "role": current_user.role.value,
+        "is_active": current_user.is_active,
+    }
+
 @router.post("/logout")
 async def logout(
     refresh_token: str,
@@ -158,3 +172,4 @@ async def logout(
     return {
         "message": "Logged out successfully"
     }
+

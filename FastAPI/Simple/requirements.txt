@@ -1,0 +1,9 @@
+﻿fastapi
+uvicorn[standard]
+sqlalchemy
+python-jose[cryptography]
+python-multipart
+bcrypt
+python-dotenv
+mangum
+psycopg2-binary

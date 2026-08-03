@@ -1,0 +1,9 @@
+.env
+
+# Python virtual environments and vendored packages
+.venv/
+package/
+
+# Python cache and bytecode
+__pycache__/
+*.pyc
