@@ -5,7 +5,7 @@ import "./App.css";
 import { useCounterStore } from "./store";
 
 
-// This shows "vanilla" access to Zustand outside React render flow.
+// This shows "vanilla" access to Zustand outside React render flow (Last Thing To Explain).
 // `getState()` reads the latest snapshot without subscribing the component.
 // const logCount = () => {
 //   const count = useCounterStore.getState().count;
@@ -52,9 +52,9 @@ const OtherComponent = ({ count }: { count: number }) => {
 
   
   // Example side effect: force-write to store on mount using `setState`.
-  // useEffect(() => {
-  //   setLogCount()
-  // },[])
+  useEffect(() => {
+    setLogCount()
+  },[])
 
   return (
     <div>
@@ -62,6 +62,7 @@ const OtherComponent = ({ count }: { count: number }) => {
       {/* <button onClick={increment}>Increment</button> */}
 
       {/* Teaching note: Active button calls async store action. */}
+      {/* <button onClick={increment}>Increment</button> */}
       <button onClick={incrementAsync}>Increment</button>
 
       {/* Teaching note: Value is passed as prop from App, sourced from Zustand. */}
