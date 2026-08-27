@@ -1,0 +1,74 @@
+import {
+  fetchWithAuth,
+  getApiErrorMessage,
+  type ApiErrorResponse,
+} from "./apiClient";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+type UserRole = "USER" | "ADMIN";
+
+export type UserResponse = {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  role: UserRole;
+  profile_image_url: string | null;
+  phone: string | null;
+  address: string | null;
+  dob: string | null;
+  postcode: string | null;
+  country: string | null;
+  city: string | null;
+};
+
+function withAbsoluteProfileImageUrl(user: UserResponse): UserResponse {
+  return {
+    ...user,
+    profile_image_url: user.profile_image_url
+      ? new URL(user.profile_image_url, `${API_BASE_URL}/`).toString()
+      : null,
+  };
+}
+
+export async function getUserProfile(): Promise<UserResponse> {
+  const response = await fetchWithAuth(
+    `${API_BASE_URL}/users/me`,
+  );
+
+  if (!response.ok) {
+    const errorData =
+      (await response.json()) as ApiErrorResponse;
+
+    throw new Error(
+      errorData.detail ?? "Failed to load current user.",
+    );
+  }
+
+  const user = (await response.json()) as UserResponse;
+
+  return withAbsoluteProfileImageUrl(user);
+}
+
+export async function updateProfileImage(
+  profileImage: File,
+): Promise<UserResponse> {
+  const formData = new FormData();
+  formData.append("profile_image", profileImage);
+
+  const response = await fetchWithAuth(`${API_BASE_URL}/users/me`, {
+    method: "PATCH",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      await getApiErrorMessage(response, "Failed to update profile photo."),
+    );
+  }
+
+  return withAbsoluteProfileImageUrl(
+    (await response.json()) as UserResponse,
+  );
+}

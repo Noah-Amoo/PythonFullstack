@@ -1,0 +1,41 @@
+TO DO:
+- move types into separate folder
+- react router: Route, Routes, BrowserRouter ()
+- prop drilling/context
+- zod
+- zustand
+- vitest
+- RTL
+- playwright
+
+Tanstack query:
+- **server-state** management library that exposes React hooks
+- useQuery - returns { data, status }, parameters: queryKey, queryFn
+- useMutation
+- useQueryClient
+- QueryClientProvider - provided in component tree
+- QueryClient - provided as a prop to QueryClientProvider
+
+React concepts:
+- components: reusable UI parts
+- props: read-only inputs that a parent component passes to a child component
+- event handler: functions triggered  (onClick, onChange, onSubmit are React event props)
+- state: data a component remembers between renders (useState)
+    - useState returns [currentState, functionToUpdateState]
+    - useState takes in the initial value as an argument
+    - useState has an optional generic for the input type for functionToUpdateState
+- useEffect: run code after rendering (keep React functions based purely on props + state)
+- controlled forms (?)
+- context layer: shared application state (?)
+- useContext vs prop drilling
+
+API layer: 
+- match the backend and create 1 file per router
+- useful to have a low-level apiClient.ts for retries, auth etc.
+
+Tech stack notes:
+- react/svelte/vue: UI libraries
+- vite: client-side build tool
+- next.js/remix/tanstack start: full-stack frontend framework
+- generally you choose either a client-side build tool (like Vite) or a full-stack framework (like Next.js or Remix) as the foundation of your app
+- next.js is built on top of react
